@@ -82,8 +82,8 @@ public class CarControllerTest {
     @Test
     public void deleteCarSuccessfully() throws Exception {
 
-        when(carService.deleteCar(2))
-                .thenReturn(null);
+        when(carService.deleteCar(2)).thenReturn(null);
+        when(carService.getCarById(2)).thenReturn(Optional.of(CarTestData.getCar()));
 
         this.mvc.perform(delete("/v1/car/2"))
                 .andExpect(status().isNoContent());

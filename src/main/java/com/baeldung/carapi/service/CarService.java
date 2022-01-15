@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface CarService {
 
-    List<Car> getAllCars();
+    List<Car> getAllCars(Optional<Integer> ratingAbove);
 
     Optional<Car> getCarById(int id);
 

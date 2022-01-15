@@ -13,18 +13,17 @@ import java.util.Optional;
 
 
 @RestController
+@RequestMapping("/v1")
 public class CarController {
-
-    @Autowired
-    CarRepository carRepository;
 
     @Autowired
     CarService carService;
 
     @GetMapping("/car")
-    public ResponseEntity<List<Car>> getAllCars() {
+    public ResponseEntity<List<Car>> getAllCars(
+            @RequestParam(required = false) Optional<Integer> ratingAbove) {
         try {
-            List<Car> cars = carService.getAllCars();
+            List<Car> cars = carService.getAllCars(ratingAbove);
             if (cars.isEmpty())
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             return new ResponseEntity<>(cars, HttpStatus.OK);
@@ -69,7 +68,10 @@ public class CarController {
     public ResponseEntity<Car> updateCar(@PathVariable("id") int id, @RequestBody Car carReq) {
         try {
             Car car = carService.updateCar(id, carReq);
-            return new ResponseEntity<>(car, HttpStatus.CREATED);
+            if(car!=null)
+                return new ResponseEntity<>(car, HttpStatus.CREATED);
+            else
+                return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -78,14 +80,11 @@ public class CarController {
     @DeleteMapping("/car/{id}")
     public ResponseEntity<HttpStatus> deleteCar(@PathVariable("id") int id) {
         try {
-            carRepository.deleteById(id);
+            carService.deleteCar(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-
-
 
 }

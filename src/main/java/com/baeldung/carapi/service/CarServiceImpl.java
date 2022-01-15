@@ -17,17 +17,17 @@ public class CarServiceImpl implements CarService{
     CarRepository carRepository;
 
     @Override
-    public List<Car> getAllCars() {
+    public List<Car> getAllCars(Optional<Integer> ratingAbove) {
         List<Car> cars = new ArrayList<Car>();
-        carRepository.findAll(Sort.by(Sort.Direction.ASC, "rating"))
+        carRepository.findByRatingGreaterThanOrderByRatingDesc
+                        (ratingAbove.orElse(-1))
                 .forEach(cars::add);
         return cars;
     }
 
     @Override
     public Optional<Car> getCarById(int id) {
-        Optional<Car> car = carRepository.findById(id);
-        return car;
+        return carRepository.findById(id);
     }
 
     @Override
@@ -40,8 +40,10 @@ public class CarServiceImpl implements CarService{
         Optional<Car> carData = carRepository.findById(id);
         if (carData.isPresent()) {
             carReq.setId(id);
+            return carRepository.save(carReq);
         }
-        return carRepository.save(carReq);
+        else
+            return null;
     }
 
     @Override

@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface CarRepository extends JpaRepository<Car, Integer> {
   List<Car> findByBrandIgnoreCase(String brand);
+  List<Car> findByRatingGreaterThanOrderByRatingDesc(int rating);
 }

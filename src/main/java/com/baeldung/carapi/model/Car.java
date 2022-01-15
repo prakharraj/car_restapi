@@ -1,6 +1,9 @@
 package com.baeldung.carapi.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,10 +15,13 @@ import javax.persistence.Table;
 @Entity
 @Table(name="CAR")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Car {
   
  @Id
  @GeneratedValue(strategy= GenerationType.IDENTITY)
+ @JsonProperty(access = JsonProperty.Access.READ_ONLY)
  private int id;
   
  @Column(name="CAR_NAME")
@@ -29,5 +35,11 @@ public class Car {
   
  @Column(name="BRAND")
  private String brand;
- 
+
+ public Car(String carName, String category, Integer rating, String brand) {
+  this.carName = carName;
+  this.category = category;
+  this.rating = rating;
+  this.brand = brand;
+ }
 }

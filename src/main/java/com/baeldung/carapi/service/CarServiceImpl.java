@@ -3,7 +3,6 @@ package com.baeldung.carapi.service;
 import com.baeldung.carapi.model.Car;
 import com.baeldung.carapi.repository.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
